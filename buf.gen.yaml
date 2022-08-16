@@ -2,4 +2,4 @@ version: v1
 plugins:
   - name: doc
     out: .gen
-    opt: html,doc.html
+    opt: html,index.html
