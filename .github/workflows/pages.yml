@@ -30,13 +30,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      # Install `buf`
+      - uses: bufbuild/buf-setup-action@v1.7.0
+      # Install `protoc`
+      - uses: arduino/setup-protoc@v1
+      # Install `protoc-gen-doc`
+      - uses: actions/setup-go@v3
+      - run: go install github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc@latest
+
+      # Generate Document
+      - run: buf generate
+
+      ### deploy
+
       - name: Setup Pages
         uses: actions/configure-pages@v1
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          # Upload entire repository
-          path: '.'
+          path: ".gen/"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
