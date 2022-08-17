@@ -49,7 +49,6 @@ jobs:
           ref: master
           path: .wiki
 
-      - uses: actions/setup-node@v2
       - name: Generate the Wiki Page
         run: |
           cat ./.gen/home.md | tee .wiki/Home.md
