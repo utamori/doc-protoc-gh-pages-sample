@@ -4,20 +4,52 @@ package examplepb;
 
 import "validate/validate.proto";
 
+// from <a href="https://github.com/envoyproxy/protoc-gen-validate/">https://github.com/envoyproxy/protoc-gen-validate/</a>
 message Person {
-  uint64 id    = 1 [(validate.rules).uint64.gt    = 999];
+  uint64 id = 1 [(validate.rules).uint64.gt = 999];
 
-  string email = 2 [(validate.rules).string.email = true];
+  optional string email = 2 [(validate.rules).string.email = true];
 
-  string name  = 3 [(validate.rules).string = {
-                      pattern:   "^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$",
-                      max_bytes: 256,
-                   }];
+  string name = 3 [(validate.rules).string = {
+    pattern: "^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$",
+    max_bytes: 256,
+  }];
 
   Location home = 4 [(validate.rules).message.required = true];
 
   message Location {
-    double lat = 1 [(validate.rules).double = { gte: -90,  lte: 90 }];
-    double lng = 2 [(validate.rules).double = { gte: -180, lte: 180 }];
+    double lat = 1 [(validate.rules).double = {
+      gte: -90,
+      lte: 90
+    }];
+    double lng = 2 [(validate.rules).double = {
+      gte: -180,
+      lte: 180
+    }];
   }
+
+  Gender gender = 5 [(validate.rules).enum = {
+    not_in: [
+      0
+    ],
+    defined_only: true
+  }];
+
+  // ISO 5218
+  enum Gender {
+    // unknown
+    GENDER_UNSPECIFIED = 0;
+    // male
+    GENDER_MALE = 1;
+    // female
+    GENDER_FEMALE = 2;
+    // other
+    GENDER_NOT_APPLICABLE = 9;
+  }
+
+  repeated string favorite_books = 6 [(validate.rules).repeated = {
+    min_items: 1,
+    max_items: 10,
+    unique: true
+  }];
 }
