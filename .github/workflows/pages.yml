@@ -46,7 +46,7 @@ jobs:
         with:
           repository: "${{ github.repository }}.wiki"
           # As of August 2022, the default branch of a GitHub wiki is `master`, not `main`
-          ref: main
+          ref: master
           path: .wiki
 
       - uses: actions/setup-node@v2
