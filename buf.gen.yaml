@@ -3,3 +3,6 @@ plugins:
   - name: doc
     out: .gen
     opt: html,index.html
+  - name: doc
+    out: .gen
+    opt: markdown,home.md
